@@ -57,11 +57,17 @@ var process_wb = (function() {
 		if (!cDg)
 			cDg = canvasDatagrid({
 				parentNode : HTMLOUT,
-				data : data
+				data : data,
+				editable : false,
+				selectionMode : false,
+				tree : false
 			});
 		cDg.style.height = '100%';
 		cDg.style.width = '100%';
 		cDg.data = data;
+		cDg.addEventListener('contextmenu', function (e) {
+	        e.items.splice(0, e.items.length);
+	    });
 		/* create schema (for A,B,C column headings) */
 		var range = XLSX.utils.decode_range(ws['!ref']);
 		for (var i = range.s.c; i <= range.e.c; ++i)

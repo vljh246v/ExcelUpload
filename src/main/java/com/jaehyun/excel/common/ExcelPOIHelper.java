@@ -8,6 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.jaehyun.excel.vo.MyCell;
@@ -22,6 +23,8 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 
+import org.apache.poi.ss.usermodel.DataFormatter;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -32,6 +35,11 @@ import java.util.List;
 
 @Component("excelPOIHelper")
 public class ExcelPOIHelper {
+	
+	
+	@Autowired
+	private DataFormatter dataFormatter;
+	
 	private int maxRowLength = 0;
 	
 	
@@ -58,7 +66,7 @@ public class ExcelPOIHelper {
 			if (DateUtil.isCellDateFormatted(cell)) {
 				content = cell.getDateCellValue() + "";
 			} else {
-				content = cell.getNumericCellValue() + "";
+				content = dataFormatter.formatCellValue(cell);
 			}
 			break;
 		case BOOLEAN:
